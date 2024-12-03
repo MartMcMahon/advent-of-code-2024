@@ -1,5 +1,5 @@
-def check_report(report):
-    levels = report.split()
+def check_report(levels):
+    # levels = report.split()
     n = len(levels)
 
     # is_increasing is a misleading name, since we don't actually
@@ -23,7 +23,18 @@ def check_report(report):
 with open("input.txt", "r") as f:
     safe_count = 0
     for line in f:
-        if check_report(line):
+        report = line.split()
+        if check_report(report):
             safe_count += 1
+        else:
+            for n in report:
+                safe = False
+                report_copy = report.copy()
+                report_copy.remove(n)
+                if check_report(report_copy):
+                    safe = True
+
+            if safe:
+                safe_count += 1
 
     print(safe_count)
