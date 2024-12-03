@@ -27,10 +27,10 @@ with open("input.txt", "r") as f:
         if check_report(report):
             safe_count += 1
         else:
-            for n in report:
-                safe = False
+            safe = False
+            for idx in range(len(report)):
                 report_copy = report.copy()
-                report_copy.remove(n)
+                report_copy.pop(idx)
                 if check_report(report_copy):
                     safe = True
 
