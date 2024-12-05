@@ -2,7 +2,7 @@ import math
 
 reading_rules = True
 
-page_dict = {}
+page_rules_l = []
 updates = []
 with open("input.txt", "r") as f:
     for line in f.readlines():
@@ -12,37 +12,25 @@ with open("input.txt", "r") as f:
                 continue
 
             [l, r] = line.split("|")
-            l = int(l.strip())
-            r = int(r.strip())
+            l = l.strip()
+            r = r.strip()
 
-            if page_dict.get(l) is None:
-                page_dict[l] = {"left": 0, "right": 0}
-
-            if page_dict.get(r) is None:
-                page_dict[r] = {"left": 0, "right": 0}
-
-            page_dict[l]["left"] += 1
-            page_dict[r]["right"] += 1
+            page_rules_l.append((l, r))
 
         else:
-            updates.append([*map(int, line.strip().split(","))])
+            updates.append(line.strip().split(","))
 
-        page_order = sorted(
-            page_dict.keys(), key=lambda x: page_dict[x]["left"], reverse=True
-        )
 
 total = 0
 for update in updates:
-    page_order_idx = 0
     valid_update = True
-    for update_page_num in update:
-        if update_page_num in page_order[page_order_idx:]:
-            page_order_idx = page_order.index(update_page_num)
-        else:
-            valid_update = False
-            break
+    for rule in page_rules_l:
+        if rule[0] in update and rule[1] in update:
+            if update.index(rule[1]) < update.index(rule[0]):
+                valid_update = False
+                break
     if valid_update:
-        total += update[math.floor(len(update) / 2)]
+        total += int(update[math.floor(len(update) / 2)])
 
 
 print(total)
