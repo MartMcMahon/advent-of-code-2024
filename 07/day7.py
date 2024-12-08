@@ -13,6 +13,8 @@ with open("input.txt", "r") as f:
                     line_totals[i][k + args[i]] = True
                 if k * args[i] <= val:
                     line_totals[i][k * args[i]] = True
+                if int(str(k) + str(args[i])) <= val:
+                    line_totals[i][int(str(k) + str(args[i]))] = True
 
         if val in line_totals[len(args) - 1].keys():
             total += val
